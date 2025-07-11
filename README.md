@@ -1,61 +1,51 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# BE_Laravel - Dự án Quản lý Bán hàng
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Giới thiệu
 
-## About Laravel
+Đây là dự án backend xây dựng bằng Laravel, cung cấp hệ thống quản lý bán hàng với nhiều chức năng hiện đại, bảo mật và dễ mở rộng. Dự án thể hiện khả năng thiết kế kiến trúc phần mềm, quản lý dữ liệu phức tạp, xác thực bảo mật và tích hợp các kỹ thuật tiên tiến.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Kỹ thuật & Công nghệ sử dụng
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Laravel Framework**: Sử dụng phiên bản mới, tận dụng Eloquent ORM, Service Layer, Observer, Middleware, Request Validation.
+- **Authentication & Authorization**: Xác thực người dùng, phân quyền vai trò, xác minh email, quản lý token bảo mật.
+- **Database Migration & Seeder**: Thiết kế, quản lý và khởi tạo dữ liệu với migration, seeder, factory.
+- **RESTful API**: Xây dựng các API chuẩn REST cho quản lý sản phẩm, người dùng, đơn hàng, kho, nhà cung cấp, v.v.
+- **Middleware**: Kiểm soát truy cập, xác thực token, kiểm tra trạng thái tài khoản, refresh token tự động.
+- **Observer Pattern**: Theo dõi và xử lý sự kiện trên các model như Branch, Role.
+- **Service Layer**: Tách logic nghiệp vụ ra khỏi controller, dễ bảo trì và mở rộng.
+- **Unit Test & Feature Test**: Viết test kiểm thử chức năng xác thực, đăng ký, đặt lại mật khẩu, v.v.
+- **Xử lý file & QR Code**: Quản lý hình ảnh sản phẩm, sinh mã QR cho sản phẩm.
+- **Quản lý trạng thái (status)**: Cho các thực thể như User, Branch, Role, Supplier, v.v.
+- **Bảo mật**: Sử dụng Laravel Sanctum cho API token, kiểm soát truy cập, xác thực email, đặt lại mật khẩu.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Các chức năng nổi bật
 
-## Learning Laravel
+- Quản lý người dùng: Đăng ký, đăng nhập, xác thực email, phân quyền, cập nhật thông tin, trạng thái tài khoản.
+- Quản lý sản phẩm: CRUD sản phẩm, hình ảnh, thông số kỹ thuật, tag, sinh mã QR.
+- Quản lý kho: Nhập kho, xuất kho, kiểm soát tồn kho, phiếu nhập kho, nhà cung cấp.
+- Quản lý đơn hàng: Đặt hàng, thanh toán, vận chuyển, đánh giá sản phẩm.
+- Quản lý chi nhánh, địa chỉ, khách hàng.
+- Hệ thống phân quyền động, dễ mở rộng.
+- API chuẩn REST, dễ tích hợp với frontend hoặc mobile app.
+- Seed dữ liệu mẫu, dễ dàng khởi tạo môi trường phát triển.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Hướng dẫn cài đặt
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+1. Clone dự án về máy:
+   ```
+   git clone <repo-url>
+   ```
+2. Cài đặt các package:
+   ```
+   composer install
+   ```
+3. Tạo file `.env` và cấu hình database.
+4. Chạy migration và seed dữ liệu:
+   ```
+   php artisan migrate --seed
+   ```
+5. Khởi động server:
+   ```
+   php artisan serve
+   ```

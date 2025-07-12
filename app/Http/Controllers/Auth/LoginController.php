@@ -37,7 +37,7 @@ class LoginController extends Controller
             return response()->json([
                 'access_token' => $token,
                 'user' => $user,
-                'expires_in' => 30 * 60, // 30 minutes in seconds
+                'expires_in' => 30 * 60,
                 'expires_at' => now()->addMinutes(30)->toISOString()
             ], 200);
         }catch (\Exception $e){

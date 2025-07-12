@@ -21,7 +21,7 @@ class UserService
             $user->phone = $data['phone'];
             $user->hire_date = $data['hire_date'];
             $user->salary = $data['salary'];
-            $user->password = Hash::make($data['password']);
+            $user->password = Hash::make(value: $data['password']);
             $user->save();
             return $user;
         }catch(\Exception $e){

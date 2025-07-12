@@ -12,6 +12,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StockReceiptController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CustomerController;
 
 
 //                              ADMIN
@@ -26,16 +27,22 @@ Route::prefix('location')->group(function () {
     Route::get('/districts/{district}/wards', [LocationController::class,'wards']);
 });
 
+//Category
 Route::get('/category', [CategoryController::class,'getAllCategory']);
 Route::get('/category/tree', [CategoryController::class,'getCategoryTree']);
 Route::get('/category/leaf-only', [CategoryController::class, 'getLeafOnly']);
 Route::get('/category/{category}', [CategoryController::class,'getCategory']);
 Route::get('/category/children/{childrenId}', [CategoryController::class,'getCategoryChildrenById']);
+
+//Product
 Route::get('/category/product/{parentId}', [CategoryController::class,'getAllProductByChildrenCategoryTree']);
 Route::get('/product', [ProductController::class,'getAllProduct']);
 Route::get('/product/hot-sale', [ProductController::class,'getProductHotSale']);
 Route::get('/product/{product}', [ProductController::class,'getProduct']);
 
+//Customer
+Route::post('/customer/create', [CustomerController::class,'addNewCustomer']);
+Route::post('/customer/login', [CustomerController::class,'login']);
 
 Route::middleware(['auth:sanctum','check.token.expiration','refresh.token.expiration'])->group(function () {
     Route::post('/logout', [loginController::class, 'logout']);
@@ -103,6 +110,10 @@ Route::middleware(['auth:sanctum','check.token.expiration','refresh.token.expira
         Route::get('/{stockReceipt}', [StockReceiptController::class,'getStockReceipt']);
         Route::post('/create', [StockReceiptController::class,'addNewStockReceipt']);
         Route::put('/approve/{stock}', [StockReceiptController::class,'approveStockReceipt']);
+    });
+
+    Route::prefix('/customer')->group(function () {
+        Route::get('/', [CustomerController::class,'getAllCustomer']);
     });
 });
 

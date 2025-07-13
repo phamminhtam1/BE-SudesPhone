@@ -33,7 +33,7 @@ class CustomerController extends Controller
             $data = $request->validated();
             $customer = $this->customerService->login($data['email'], $data['password']);
             if(!$customer){
-                return response()->json(['message'=> $customer['message']],500);
+                return response()->json(['message'=> 'Email hoặc mật khẩu không đúng'], 402);
             }
             return response()->json([
                 'message'=> 'success',
@@ -49,6 +49,18 @@ class CustomerController extends Controller
             return response()->json([
                 'message' => 'success',
                 'customers' => $customer
+            ], 200);
+        }catch(\Exception $e){
+            return response()->json(['message'=>$e->getMessage()],500);
+        }
+    }
+
+    public function getCustomer(Customer $customer){
+        try{
+            $customer = $this->customerService->getCustomer($customer);
+            return response()->json([
+                'message'=> 'success',
+                'customer' => $customer
             ], 200);
         }catch(\Exception $e){
             return response()->json(['message'=>$e->getMessage()],500);

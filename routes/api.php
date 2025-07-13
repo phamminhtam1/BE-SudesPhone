@@ -13,6 +13,7 @@ use App\Http\Controllers\StockReceiptController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\AddressCustomerController;
 
 
 //                              ADMIN
@@ -43,6 +44,11 @@ Route::get('/product/{product}', [ProductController::class,'getProduct']);
 //Customer
 Route::post('/customer/create', [CustomerController::class,'addNewCustomer']);
 Route::post('/customer/login', [CustomerController::class,'login']);
+Route::get('/customer/{customer}', [CustomerController::class,'getCustomer']);
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('/customer/address/create', [AddressCustomerController::class, 'addNewAddressCustomer']);
+});
 
 Route::middleware(['auth:sanctum','check.token.expiration','refresh.token.expiration'])->group(function () {
     Route::post('/logout', [loginController::class, 'logout']);

@@ -32,15 +32,8 @@ class CustomerService
 
     public function login(string $email, string $password){
         $customer = Customer::where('email', $email)->first();
-        if(!$customer){
-            return [
-                'message' => 'Email ko đúng'
-            ];
-        }
-        if(!Hash::check($password, $customer->password_hash)){
-            return [
-                'message'=> 'Mật khẩu không đúng!'
-            ];
+        if(!$customer || !Hash::check($password, $customer->password_hash)){
+            return null;
         }
         $token = $customer->createToken('customer-token')->plainTextToken;
         return [
@@ -52,4 +45,9 @@ class CustomerService
     public function getCustomers(){
         return Customer::get();
     }
+
+    public function getCustomer(Customer $customer){
+        return $customer;
+    }
+
 }

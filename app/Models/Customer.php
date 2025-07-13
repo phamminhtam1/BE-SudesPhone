@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Customer extends Model
+class Customer extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     protected $primaryKey = 'cust_id';
@@ -20,4 +21,8 @@ class Customer extends Model
         'phone',
         'password_hash',
     ];
+
+    public function address(){
+        return $this->hasMany(Address::class, 'cust_id', 'cust_id');
+    }
 }

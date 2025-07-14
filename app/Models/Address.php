@@ -10,11 +10,10 @@ class Address extends Model
     protected $fillable = [
         'cust_id',
         'label',
-        'line1',
-        'line2',
+        'line',
         'city',
         'region',
-        'postal_code',
+        'ward',
         'country',
         'is_default'
     ];

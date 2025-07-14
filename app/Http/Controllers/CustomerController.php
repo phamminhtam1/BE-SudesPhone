@@ -57,6 +57,13 @@ class CustomerController extends Controller
 
     public function getCustomer(Customer $customer){
         try{
+            $user = auth('sanctum')->user();
+            if (!$user) {
+                return response()->json(['message' => 'Không xác thực'], 401);
+            }
+            if (!in_array($user->role_id, [1, 2])) {
+                return response()->json(['message' => 'Bạn không có quyền truy cập'], 403);
+            }
             $customer = $this->customerService->getCustomer($customer);
             return response()->json([
                 'message'=> 'success',
@@ -67,4 +74,19 @@ class CustomerController extends Controller
         }
     }
 
+    public function getMyInfo() {
+        try {
+            $customer = auth('customer')->user();
+            if (!$customer) {
+                return response()->json(['message' => 'Không xác thực'], 401);
+            }
+            $customer->load('address');
+            return response()->json([
+                'message' => 'success',
+                'customer' => $customer
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
 }

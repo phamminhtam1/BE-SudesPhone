@@ -16,18 +16,29 @@ class AddressCustomerController extends Controller
     }
 
     public function addNewAddressCustomer(CreateAddressCustomerRequest $request){
-        // die("aa");
         try{
             $data = $request->validated();
-            dd(Auth::guard('customer')->user());
-            $data['cust_id'] = Auth::guard('customer')->user()->cust_id;
+            $data['cust_id'] = Auth::user()->cust_id;
+            // dd($data['cust_id']);
             $address = $this->addressCustomerService->createAddressCustomer($data);
             return response()->json([
                 'message' => 'success',
                 'address' => $address,
             ], 200);
         }catch(\Exception $e){
-            return response()->json([ 'messgae'=> $e->getMessage()]);
+            return response()->json([ 'message'=> $e->getMessage()]);
+        }
+    }
+
+    public function getAllAddressCustomer(){
+        try{
+            $address = $this->addressCustomerService->getAllAddressCustomer();
+            return response()->json([
+                'message' => 'success',
+                'address' => $address
+            ], 200);
+        }catch(\Exception $e){
+            return response()->json([ 'message'=> $e->getMessage()]);
         }
     }
 }

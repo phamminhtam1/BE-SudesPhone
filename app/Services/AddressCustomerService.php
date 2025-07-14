@@ -21,11 +21,10 @@ class AddressCustomerService
             }
             $address->cust_id = $data['cust_id'];
             $address->label = $data['label'];
-            $address->line1 = $data['line1'];
-            $address->line2 = $data['line2'];
+            $address->line = $data['line'];
             $address->city = $data['city'];
             $address->region = $data['region'];
-            $address->country = $data['country'];
+            $address->ward = $data['ward'];
             $address->is_default = $data['is_default'];
             $address->save();
             DB::commit();
@@ -34,6 +33,14 @@ class AddressCustomerService
             DB::rollBack();
             throw $e;
         }
+    }
+
+    public function getAllAddressCustomer(){
+        $customer = auth('customer')->user();
+        if (!$customer) {
+            return collect(); // hoặc trả về []
+        }
+        return Address::where('cust_id', $customer->cust_id)->get();
     }
 
 }

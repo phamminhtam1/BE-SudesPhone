@@ -44,9 +44,11 @@ Route::get('/product/{product}', [ProductController::class,'getProduct']);
 //Customer
 Route::post('/customer/create', [CustomerController::class,'addNewCustomer']);
 Route::post('/customer/login', [CustomerController::class,'login']);
-Route::get('/customer/{customer}', [CustomerController::class,'getCustomer']);
 
-Route::middleware(['auth:sanctum'])->group(function () {
+// Route cho customer lấy thông tin chính mình (chỉ customer đăng nhập mới truy cập được)
+Route::middleware(['auth:customer'])->get('/customer/me', [CustomerController::class, 'getMyInfo']);
+
+Route::middleware(['auth:customer'])->group(function () {
     Route::post('/customer/address/create', [AddressCustomerController::class, 'addNewAddressCustomer']);
 });
 
@@ -110,6 +112,7 @@ Route::middleware(['auth:sanctum','check.token.expiration','refresh.token.expira
         Route::delete('/delete/{supplier}', [SupplierController::class,'deleteSupplier']);
     });
 
+    //                           STOCK RECEIPT
     Route::prefix('/stock-receipt')->group(function () {
         Route::get('/', [StockReceiptController::class,'getAllStockReceipt']);
         Route::get('/statusCount', [StockReceiptController::class,'getAllStockReceiptStatus']);
@@ -118,9 +121,18 @@ Route::middleware(['auth:sanctum','check.token.expiration','refresh.token.expira
         Route::put('/approve/{stock}', [StockReceiptController::class,'approveStockReceipt']);
     });
 
+    //                           CUSTOMER
     Route::prefix('/customer')->group(function () {
         Route::get('/', [CustomerController::class,'getAllCustomer']);
+        // Route này chỉ cho admin/nhân viên truy cập
+        Route::get('/{customer}', [CustomerController::class,'getCustomer']);
     });
+
+    //                           ADDRESS CUSTOMER
+    Route::prefix('/address-customer')->group(function () {
+        Route::get('/', [AddressCustomerController::class,'getAllAddressCustomer']);
+    });
+
 });
 
 

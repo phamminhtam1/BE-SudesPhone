@@ -47,9 +47,12 @@ Route::post('/customer/login', [CustomerController::class,'login']);
 
 // Route cho customer lấy thông tin chính mình (chỉ customer đăng nhập mới truy cập được)
 Route::middleware(['auth:customer'])->get('/customer/me', [CustomerController::class, 'getMyInfo']);
+Route::middleware(['auth:customer'])->get('/me/address/{address}', [AddressCustomerController::class, 'getAddressCustomer']);
 
 Route::middleware(['auth:customer'])->group(function () {
     Route::post('/customer/address/create', [AddressCustomerController::class, 'addNewAddressCustomer']);
+    Route::put('/customer/address/edit/{address}', [AddressCustomerController::class, 'editAddressCustomer']);
+
 });
 
 Route::middleware(['auth:sanctum','check.token.expiration','refresh.token.expiration'])->group(function () {

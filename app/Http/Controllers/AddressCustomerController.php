@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\Customer\CreateAddressCustomerRequest;
+use App\Http\Requests\Customer\EditAddressCustomerRequest;
+
 use App\Models\Address;
 use App\Services\AddressCustomerService;
 use Illuminate\Support\Facades\Auth;
@@ -37,6 +39,30 @@ class AddressCustomerController extends Controller
                 'message' => 'success',
                 'address' => $address
             ], 200);
+        }catch(\Exception $e){
+            return response()->json([ 'message'=> $e->getMessage()]);
+        }
+    }
+
+    public function getAddressCustomer(Address $address){
+        try{
+            $cust_id = Auth::user()->cust_id;
+            $address = $this->addressCustomerService->getAddressCustomer($address, $cust_id);
+            return response()->json(['address' => $address]);
+        }catch(\Exception $e){
+            return response()->json([ 'message'=> $e->getMessage()]);
+        }
+    }
+
+    public function editAddressCustomer(EditAddressCustomerRequest $request, Address $address){
+        try{
+            $cust_id = Auth::user()->cust_id;
+            $data = $request->validated();
+            $address = $this->addressCustomerService->updateAddressCustomer($address,$data, $cust_id);
+            return response()->json([
+                'message'=>'success',
+                'address'=>$address
+            ]);
         }catch(\Exception $e){
             return response()->json([ 'message'=> $e->getMessage()]);
         }

@@ -67,4 +67,14 @@ class AddressCustomerController extends Controller
             return response()->json([ 'message'=> $e->getMessage()]);
         }
     }
+
+    public function deleteAddressCustomer(Address $address){
+        $cust_id = Auth::user()->cust_id;
+        try{
+            $this->addressCustomerService->deleteAddressCustomer($address, $cust_id);
+            return response()->json(['message' => 'Delete success'], 200);
+        }catch(\Exception $e){
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
 }

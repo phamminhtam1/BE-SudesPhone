@@ -77,4 +77,18 @@ class AddressCustomerService
         throw new \Exception('Bạn không có quyền truy cập địa chỉ này.');
     }
 
+    public function deleteAddressCustomer(Address $address, $cust_id){
+        if($address->cust_id == $cust_id){
+            try{
+                DB::beginTransaction();
+                $address->delete();
+                DB::commit();
+                return;
+            }catch(\Exception $e){
+                DB::rollBack();
+                throw $e;
+            }
+        }
+        throw new \Exception('Bạn không có quyền truy cập địa chỉ này.');
+    }
 }

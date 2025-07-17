@@ -14,7 +14,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\AddressCustomerController;
-
+use App\Http\Controllers\CartController;
 
 //                              ADMIN
 Route::post('/register', [RegisteredUserController::class, 'store']);
@@ -52,7 +52,9 @@ Route::middleware(['auth:customer'])->get('/me/address/{address}', [AddressCusto
 Route::middleware(['auth:customer'])->group(function () {
     Route::post('/customer/address/create', [AddressCustomerController::class, 'addNewAddressCustomer']);
     Route::put('/customer/address/edit/{address}', [AddressCustomerController::class, 'editAddressCustomer']);
+    Route::delete('/customer/address/delete/{address}', [AddressCustomerController::class, 'deleteAddressCustomer']);
 
+    Route::post('/customer/cart/create', [CartController::class, 'addNewCart']);
 });
 
 Route::middleware(['auth:sanctum','check.token.expiration','refresh.token.expiration'])->group(function () {

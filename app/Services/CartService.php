@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Cart;
+use App\Models\CartItem;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
@@ -12,17 +13,42 @@ use PHPOpenSourceSaver\JWTAuth\Claims\Custom;
 
 class CartService
 {
-    public function creatCart($cust_id){
+    public function createCart(array $data, $cust_id){
         try{
             DB::beginTransaction();
-            $cart = new Cart();
-            $cart['cust_id'] = $cust_id;
-            $cart->save();
+            $cart = Cart::where('cust_id', $cust_id)->first();
+            if(!$cart){
+                $cart = new Cart();
+                $cart['cust_id'] = $cust_id;
+                $cart->save();
+            }
+            $cart_items = new CartItem();
+            $cart_items->cart_id = $cart->cart_id;
+            $cart_items->prod_id = $data['prod_id'];
+            $cart_items->qty = $data['qty'];
+            $cart_items->save();
             DB::commit();
-            return $cart;
+            return $cart->load('items');
         }catch(\Exception $e){
             DB::rollBack();
             throw $e;
         }
+    }
+
+    public function getMyCart($cust_id){
+        $cart = Cart::with([
+            'items.product' => function($query){
+                $query->select('prod_id', 'name', 'discount_price');
+            },
+            'items.product.images' => function($query){
+                $query->select('img_id', 'prod_id', 'img_url')->orderBy('img_id');
+            },
+            'items.product.specs' => function($query){
+                $query->select('prod_id', 'spec_key', 'spec_value')
+                    ->where('spec_key', 'Màu sắc');
+            }
+        ])->where('cust_id', $cust_id)->get();
+
+        return $cart;
     }
 }

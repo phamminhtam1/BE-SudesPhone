@@ -50,11 +50,15 @@ Route::middleware(['auth:customer'])->get('/customer/me', [CustomerController::c
 Route::middleware(['auth:customer'])->get('/me/address/{address}', [AddressCustomerController::class, 'getAddressCustomer']);
 
 Route::middleware(['auth:customer'])->group(function () {
+
+//Address
     Route::post('/customer/address/create', [AddressCustomerController::class, 'addNewAddressCustomer']);
     Route::put('/customer/address/edit/{address}', [AddressCustomerController::class, 'editAddressCustomer']);
     Route::delete('/customer/address/delete/{address}', [AddressCustomerController::class, 'deleteAddressCustomer']);
 
+//Cart
     Route::post('/customer/cart/create', [CartController::class, 'addNewCart']);
+    Route::get('/customer/cart/me', [CartController::class, 'getMyCart']);
 });
 
 Route::middleware(['auth:sanctum','check.token.expiration','refresh.token.expiration'])->group(function () {

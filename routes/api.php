@@ -59,6 +59,8 @@ Route::middleware(['auth:customer'])->group(function () {
 //Cart
     Route::post('/customer/cart/create', [CartController::class, 'addNewCart']);
     Route::get('/customer/cart/me', [CartController::class, 'getMyCart']);
+    Route::put('/customer/cart/update-quantity/{cartItem}', [CartController::class, 'updateQuantity']);
+    Route::delete('/customer/cart/delete/{cartItem}', [CartController::class, 'deleteItem']);
 });
 
 Route::middleware(['auth:sanctum','check.token.expiration','refresh.token.expiration'])->group(function () {

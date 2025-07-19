@@ -51,4 +51,29 @@ class CartService
 
         return $cart;
     }
+
+    public function updateQuantity(CartItem $cartItem, $qty){
+        try{
+            DB::beginTransaction();
+            $cartItem->qty = $qty;
+            $cartItem->save();
+            DB::commit();
+            return $cartItem;
+        }catch(\Exception $e){
+            DB::rollBack();
+            throw $e;
+        }
+    }
+
+    public function deleteCartItem(CartItem $cartItem){
+        try{
+            DB::beginTransaction();
+            $cartItem->delete();
+            DB::commit();
+            return;
+        }catch(\Exception $e){
+            DB::rollBack();
+            throw $e;
+        }
+    }
 }

@@ -20,7 +20,7 @@ class AddressCustomerController extends Controller
     public function addNewAddressCustomer(CreateAddressCustomerRequest $request){
         try{
             $data = $request->validated();
-            $data['cust_id'] = Auth::user()->cust_id;
+            $data['cust_id'] = Auth::guard('customer')->user()->cust_id;
             // dd($data['cust_id']);
             $address = $this->addressCustomerService->createAddressCustomer($data);
             return response()->json([
@@ -46,7 +46,7 @@ class AddressCustomerController extends Controller
 
     public function getAddressCustomer(Address $address){
         try{
-            $cust_id = Auth::user()->cust_id;
+            $cust_id = Auth::guard('customer')->user()->cust_id;
             $address = $this->addressCustomerService->getAddressCustomer($address, $cust_id);
             return response()->json(['address' => $address]);
         }catch(\Exception $e){
@@ -56,7 +56,7 @@ class AddressCustomerController extends Controller
 
     public function editAddressCustomer(EditAddressCustomerRequest $request, Address $address){
         try{
-            $cust_id = Auth::user()->cust_id;
+            $cust_id = Auth::guard('customer')->user()->cust_id;
             $data = $request->validated();
             $address = $this->addressCustomerService->updateAddressCustomer($address,$data, $cust_id);
             return response()->json([
@@ -69,7 +69,7 @@ class AddressCustomerController extends Controller
     }
 
     public function deleteAddressCustomer(Address $address){
-        $cust_id = Auth::user()->cust_id;
+        $cust_id = Auth::guard('customer')->user()->cust_id;
         try{
             $this->addressCustomerService->deleteAddressCustomer($address, $cust_id);
             return response()->json(['message' => 'Delete success'], 200);

@@ -15,6 +15,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'refresh.token.expiration' => \App\Http\Middleware\RefreshTokenExpiration::class,
             'check.token.expiration' => \App\Http\Middleware\CheckTokenExpiration::class,
+            'check.customer.token' => \App\Http\Middleware\CheckCustomerToken::class,
+            'customer.auth' => \App\Http\Middleware\CustomerAuth::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

@@ -19,7 +19,7 @@ class CartController extends Controller
     }
 
     public function addNewCart(Request $request){
-        $cust_id = Auth::user()->cust_id;
+        $cust_id = Auth::guard('customer')->user()->cust_id;
         try{
             $data = $request->all();
             $cart = $this->cartService->createCart($data, $cust_id);
@@ -33,7 +33,7 @@ class CartController extends Controller
     }
 
     public function getMyCart(){
-        $cust_id = Auth::user()->cust_id;
+        $cust_id = Auth::guard('customer')->user()->cust_id;
         try{
             $cart = $this->cartService->getMyCart($cust_id);
             return response()->json([
@@ -46,7 +46,7 @@ class CartController extends Controller
     }
 
     public function updateQuantity(Request $request, CartItem $cartItem){
-        $cust_id = Auth::user()->cust_id;
+        $cust_id = Auth::guard('customer')->user()->cust_id;
         if($cartItem->cart->cust_id !== $cust_id){
             return response()->json(['message' => 'Bạn không có quyền !'],403);
         }
@@ -64,7 +64,7 @@ class CartController extends Controller
     }
 
     public function deleteItem(CartItem $cartItem){
-        $cust_id = Auth::user()->cust_id;
+        $cust_id = Auth::guard('customer')->user()->cust_id;
         if($cartItem->cart->cust_id !== $cust_id){
             return response()->json(['message' => 'Bạn không có quyền !'],403);
         }

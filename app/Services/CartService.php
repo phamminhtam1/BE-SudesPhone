@@ -22,11 +22,20 @@ class CartService
                 $cart['cust_id'] = $cust_id;
                 $cart->save();
             }
-            $cart_items = new CartItem();
-            $cart_items->cart_id = $cart->cart_id;
-            $cart_items->prod_id = $data['prod_id'];
-            $cart_items->qty = $data['qty'];
-            $cart_items->save();
+            $cart_items = CartItem::where('cart_id', $cart->cart_id)
+                                    ->where('prod_id', $data['prod_id'])
+                                    ->first();
+            if($cart_items){
+                $cart_items->qty += $data['qty'];
+                $cart_items->save();
+            }
+            else{
+                $cart_items = new CartItem();
+                $cart_items->cart_id = $cart->cart_id;
+                $cart_items->prod_id = $data['prod_id'];
+                $cart_items->qty = $data['qty'];
+                $cart_items->save();
+            }
             DB::commit();
             return $cart->load('items');
         }catch(\Exception $e){

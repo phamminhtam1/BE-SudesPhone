@@ -98,4 +98,7 @@ class Branch extends Model
     public function stockReceipts(){
         return $this->hasMany(StockReceipt::class,'branch)id','branch_id');
     }
+    public function order(){
+        return $this->hasMany(Order::class, 'branch_id', 'branch_id');
+    }
 }

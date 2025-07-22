@@ -15,6 +15,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\AddressCustomerController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
+use App\Models\Order;
 
 //                              ADMIN
 Route::post('/register', [RegisteredUserController::class, 'store']);
@@ -50,7 +52,6 @@ Route::middleware(['customer.auth', 'check.customer.token'])->get('/customer/me'
 Route::middleware(['customer.auth', 'check.customer.token'])->get('/me/address/{address}', [AddressCustomerController::class, 'getAddressCustomer']);
 
 Route::middleware(['customer.auth', 'check.customer.token'])->group(function () {
-
 //Address
     Route::post('/customer/address/create', [AddressCustomerController::class, 'addNewAddressCustomer']);
     Route::put('/customer/address/edit/{address}', [AddressCustomerController::class, 'editAddressCustomer']);
@@ -61,6 +62,9 @@ Route::middleware(['customer.auth', 'check.customer.token'])->group(function () 
     Route::get('/customer/cart/me', [CartController::class, 'getMyCart']);
     Route::put('/customer/cart/update-quantity/{cartItem}', [CartController::class, 'updateQuantity']);
     Route::delete('/customer/cart/delete/{cartItem}', [CartController::class, 'deleteItem']);
+
+//Order
+    Route::post('/customer/order/create', [OrderController::class, 'createNewOrder']);
 });
 
 Route::middleware(['auth:sanctum','check.token.expiration','refresh.token.expiration'])->group(function () {

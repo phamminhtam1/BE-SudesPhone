@@ -65,6 +65,8 @@ Route::middleware(['customer.auth', 'check.customer.token'])->group(function () 
 
 //Order
     Route::post('/customer/order/create', [OrderController::class, 'createNewOrder']);
+    Route::get('/customer/my-order', [OrderController::class, 'getMyListOrder'] );
+    Route::get('/customer/my-order/{order}', [OrderController::class, 'getOrderDetail'] );
 });
 
 Route::middleware(['auth:sanctum','check.token.expiration','refresh.token.expiration'])->group(function () {

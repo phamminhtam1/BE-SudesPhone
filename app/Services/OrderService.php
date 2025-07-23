@@ -40,4 +40,27 @@ class OrderService
             throw $e;
         }
     }
+
+    public function getMyListOrder($cust_id){
+        $order = Order::where('cust_id', $cust_id)->get();
+        return $order;
+    }
+
+    public function getOrderDetail($order, $cust_id){
+        $order = Order::with([
+            'items.product' => function($query){
+                $query->select('prod_id', 'name', 'discount_price');
+            },
+            'items.product.images' => function($query){
+                $query->select('img_id', 'prod_id', 'img_url')->orderBy('img_id');
+            },
+            'items.product.specs' => function($query){
+                $query->select('prod_id', 'spec_key', 'spec_value')
+                    ->where('spec_key', 'Màu sắc');
+            }
+        ])  ->where('order_id', $order->order_id)
+            ->where('cust_id', $cust_id)
+            ->first();
+        return $order;
+    }
 }

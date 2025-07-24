@@ -43,11 +43,11 @@ class CustomerService
     }
 
     public function getCustomers(){
-        return Customer::get();
+        return Customer::with('order')->get();
     }
 
     public function getCustomer(Customer $customer){
-        return $customer;
+        return $customer->load('order');
     }
 
 }

@@ -53,4 +53,54 @@ class OrderController extends Controller
             'order'=>$order
         ],200);
     }
+
+    public function getOrderDetailForAdmin(Order $order){
+        $admin = Auth::guard('sanctum')->user();
+        if(!$admin){
+            return response()->json(['message'=>'Không xác thực'],401);
+        }
+        if(!in_array($admin->role_id, [1,2])){
+            return response()->json(['message'=>'Bạn không có quyền truy cập'],403);
+        }
+        $order = $this->orderService->getOrderDetailForAdmin($order);
+        return response()->json([
+            'message'=>'success',
+            'order'=>$order
+        ],200);
+    }
+    public function getAllOrder(){
+        $admin = Auth::guard('sanctum')->user();
+        if(!$admin){
+            return response()->json(['message'=>'Không xác thực'],401);
+        }
+        if(!in_array($admin->role_id, [1,2])){
+            return response()->json(['message'=>'Bạn không có quyền truy cập'],403);
+        }
+        $order = $this->orderService->getAllOrder();
+        return response()->json([
+            'message'=>'success',
+            'order'=>$order
+        ],200);
+    }
+
+    public function gettTotalProfit(){
+        $admin = Auth::guard('sanctum')->user();
+        if(!$admin){
+            return response()->json(['message'=>'Không xác thực'],401);
+        }
+        if(!in_array($admin->role_id, [1,2])){
+            return response()->json(['message'=>'Bạn không có quyền truy cập'],403);
+        }
+        $total_profit = $this->orderService->getTotalProfit();
+        $total_order = $this->orderService->getTotalOrder();
+        $total_order_waiting = $this->orderService->getTotalOrderWaiting();
+        $total_order_completed = $this->orderService->getTotalOrderCompleted();
+        return response()->json([
+            'message'=>'success',
+            'total_profit'=>$total_profit,
+            'total_order'=>$total_order,
+            'total_order_waiting'=>$total_order_waiting,
+            'total_order_completed'=>$total_order_completed
+        ],200);
+    }
 }

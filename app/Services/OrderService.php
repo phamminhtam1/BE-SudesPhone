@@ -63,4 +63,65 @@ class OrderService
             ->first();
         return $order;
     }
+
+    public function getOrderDetailForAdmin($order){
+        $order = Order::with([
+            'items.product' => function($query){
+                $query->select('prod_id', 'name', 'discount_price');
+            },
+            'items.product.images' => function($query){
+                $query->select('img_id', 'prod_id', 'img_url')->orderBy('img_id');
+            },
+            'items.product.specs' => function($query){
+                $query->select('prod_id', 'spec_key', 'spec_value')
+                    ->where('spec_key', 'Màu sắc');
+            }
+        ])  ->where('order_id', $order->order_id)
+            ->first();
+        return $order;
+    }
+
+    public function getAllOrder(){
+        $order = Order::with([
+            'customer' => function($query){
+                $query->select('cust_id', 'first_name', 'last_name', 'phone', 'email');
+            },
+            'items.product' => function($query){
+                $query->select('prod_id', 'name', 'discount_price');
+            },
+            'items.product.images' => function($query){
+                $query->select('img_id', 'prod_id', 'img_url')->orderBy('img_id');
+            },
+            'items.product.specs' => function($query){
+                $query->select('prod_id', 'spec_key', 'spec_value')
+                    ->where('spec_key', 'Màu sắc');
+            },
+
+        ])  ->get();
+        return $order;
+    }
+    public function getTotalProfit(){
+        $total_profit = Order::where('order_status', 'completed')
+        ->where('payment_status', 'paid')
+        ->sum('total_amount');
+        return $total_profit;
+    }
+
+    public function getTotalOrder(){
+        $total_order = Order::count();
+        return $total_order;
+    }
+
+    public function getTotalOrderWaiting(){
+        $total_order_waiting = Order::where('order_status', 'pending')
+        ->count();
+        return $total_order_waiting;
+    }
+
+    public function getTotalOrderCompleted(){
+        $total_order_completed = Order::where('order_status', 'completed')
+        ->count();
+        return $total_order_completed;
+    }
+
 }

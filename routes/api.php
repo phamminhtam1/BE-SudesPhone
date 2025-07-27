@@ -141,8 +141,15 @@ Route::middleware(['auth:sanctum','check.token.expiration','refresh.token.expira
     //                           CUSTOMER
     Route::prefix('/customer')->group(function () {
         Route::get('/', [CustomerController::class,'getAllCustomer']);
-        // Route này chỉ cho admin/nhân viên truy cập
         Route::get('/{customer}', [CustomerController::class,'getCustomer']);
+    });
+
+    //                           ORDER
+    Route::prefix('/order')->group(function () {
+        Route::get('/', [OrderController::class, 'getAllOrder']);
+        Route::get('/total-profit', [OrderController::class, 'gettTotalProfit']);
+        Route::get('/{order}', [OrderController::class, 'getOrderDetailForAdmin']);
+
     });
 
     //                           ADDRESS CUSTOMER

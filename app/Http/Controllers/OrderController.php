@@ -103,4 +103,29 @@ class OrderController extends Controller
             'total_order_completed'=>$total_order_completed
         ],200);
     }
+
+    public function changeOrderStatus(Request $request, Order $order){
+        $admin = Auth::guard('sanctum')->user();
+        if (!$admin) {
+            return response()->json(['message' => 'Không xác thực'], 401);
+        }
+        if (!in_array($admin->role_id, [1, 2])) {
+            return response()->json(['message' => 'Bạn không có quyền truy cập'], 403);
+        }
+
+        try {
+            $status = $request->input('order_status');
+            $order = $this->orderService->changeOrderStatus($order, $status);
+            return response()->json([
+                'message' => 'success',
+                'order' => $order
+            ], 200);
+        } catch (\Exception $e) {
+            $statusCode = $e->getCode() ?: 500;
+            return response()->json([
+                'message' => $e->getMessage()
+            ], $statusCode);
+        }
+    }
+
 }

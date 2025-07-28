@@ -22,10 +22,18 @@ class Customer extends Authenticatable
         'password_hash',
     ];
 
+    protected $appends = ['name'];
+
     public function address(){
         return $this->hasMany(Address::class, 'cust_id', 'cust_id');
     }
     public function order(){
         return $this->hasMany(Order::class, 'cust_id', 'cust_id');
+    }
+
+    // Accessor để tạo trường name từ first_name và last_name
+    public function getNameAttribute()
+    {
+        return trim($this->first_name . ' ' . $this->last_name);
     }
 }

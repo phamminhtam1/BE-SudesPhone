@@ -10,7 +10,7 @@ class CreateOrderRequest extends FormRequest
         return [
             // 'cust_id' => 'required|exists:customers,cust_id',
             'order_status' => 'required|in:pending,paid,shipped,completed,cancelled',
-            'payment_status' => 'required|in:unpaid,paid,refunded',
+            'pay_status' => 'required|in:pending,success,failed,refunded',
             'sub_total' => 'nullable|numeric|min:0',
             'shipping_fee' => 'required|numeric|min:0',
             'discount' => 'nullable|numeric|min:0',
@@ -34,8 +34,8 @@ class CreateOrderRequest extends FormRequest
             'order_status.required' => 'Trạng thái đơn hàng là bắt buộc.',
             'order_status.in' => 'Trạng thái đơn hàng không hợp lệ.',
 
-            'payment_status.required' => 'Trạng thái thanh toán là bắt buộc.',
-            'payment_status.in' => 'Trạng thái thanh toán không hợp lệ.',
+            'pay_status.required' => 'Trạng thái thanh toán là bắt buộc.',
+            'pay_status.in' => 'Trạng thái thanh toán không hợp lệ.',
             'name.required' => 'Vui lòng nhập họ và tên.',
 
             'name.string' => 'Họ và tên không hợp lệ.',

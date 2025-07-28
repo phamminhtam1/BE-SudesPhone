@@ -16,6 +16,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\AddressCustomerController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\CheckoutController;
 use App\Models\Order;
 
 //                              ADMIN
@@ -67,7 +68,15 @@ Route::middleware(['customer.auth', 'check.customer.token'])->group(function () 
     Route::post('/customer/order/create', [OrderController::class, 'createNewOrder']);
     Route::get('/customer/my-order', [OrderController::class, 'getMyListOrder'] );
     Route::get('/customer/my-order/{order}', [OrderController::class, 'getOrderDetail'] );
+
+//Checkout
+    Route::post('/customer/checkout/process', [CheckoutController::class, 'processCheckout']);
 });
+
+// Payment callbacks và thank you page (không cần auth)
+Route::post('/checkout/momo-callback', [CheckoutController::class, 'momoCallback']);
+Route::get('/checkout/thank-you', [CheckoutController::class, 'thankYou']);
+Route::get('/customer/checkout/thank-you', [CheckoutController::class, 'thankYou']); // Thêm route cũ để tương thích
 
 Route::middleware(['auth:sanctum','check.token.expiration','refresh.token.expiration'])->group(function () {
     Route::post('/logout', [loginController::class, 'logout']);
@@ -149,7 +158,7 @@ Route::middleware(['auth:sanctum','check.token.expiration','refresh.token.expira
         Route::get('/', [OrderController::class, 'getAllOrder']);
         Route::get('/total-profit', [OrderController::class, 'gettTotalProfit']);
         Route::get('/{order}', [OrderController::class, 'getOrderDetailForAdmin']);
-
+        Route::put('/change-status/{order}', [OrderController::class, 'changeOrderStatus']);
     });
 
     //                           ADDRESS CUSTOMER

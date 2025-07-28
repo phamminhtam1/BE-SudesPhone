@@ -85,4 +85,19 @@ class CartService
             throw $e;
         }
     }
+
+    public function clearCart($cust_id){
+        try{
+            DB::beginTransaction();
+            $cart = Cart::where('cust_id', $cust_id)->first();
+            if($cart){
+                CartItem::where('cart_id', $cart->cart_id)->delete();
+            }
+            DB::commit();
+            return true;
+        }catch(\Exception $e){
+            DB::rollBack();
+            throw $e;
+        }
+    }
 }

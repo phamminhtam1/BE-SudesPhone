@@ -78,6 +78,8 @@ Route::post('/checkout/momo-callback', [CheckoutController::class, 'momoCallback
 Route::get('/checkout/thank-you', [CheckoutController::class, 'thankYou']);
 Route::get('/customer/checkout/thank-you', [CheckoutController::class, 'thankYou']); // Thêm route cũ để tương thích
 
+
+
 Route::middleware(['auth:sanctum','check.token.expiration','refresh.token.expiration'])->group(function () {
     Route::post('/logout', [loginController::class, 'logout']);
 

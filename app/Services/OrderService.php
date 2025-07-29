@@ -24,6 +24,12 @@ class OrderService
             $order->discount = $data['discount'] ??null;
             $order->total_amount = $data['total_amount'];
             $order->address_customer = $data['address_customer'];
+
+            // Set thời gian hết hạn cho đơn hàng MoMo (15 phút)
+            if ($data['method_payment'] === 'momo') {
+                $order->expires_at = now()->addMinutes(15);
+            }
+
             $order->save();
             $payment = new Payment();
             $payment->order_id = $order->order_id;
@@ -50,7 +56,7 @@ class OrderService
     }
 
     public function getMyListOrder($cust_id){
-        $order = Order::where('cust_id', $cust_id)->with('payment')->get();
+        $order = Order::where('cust_id', $cust_id)->with('payment')->orderBy('created_at', 'desc')->get();
         return $order;
     }
 
@@ -113,13 +119,14 @@ class OrderService
             'payment' => function($query){
                 $query->select('pay_id', 'order_id', 'method', 'pay_status', 'transaction_id', 'pay_at');
             }
-        ])  ->get();
+        ]) ->orderBy('created_at', 'desc')->get();
         return $order;
     }
     public function getTotalProfit(){
-        $total_profit = Order::where('order_status', 'completed')
-        ->where('payment_status', 'paid')
-        ->sum('total_amount');
+        $total_profit = Order::join('payments', 'orders.order_id', '=', 'payments.order_id')
+            ->where('orders.order_status', 'completed')
+            ->where('payments.pay_status', 'success')
+            ->sum('orders.total_amount');
         return $total_profit;
     }
 

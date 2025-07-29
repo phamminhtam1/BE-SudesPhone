@@ -14,6 +14,9 @@ class Kernel extends ConsoleKernel
     {
         // Prune expired Sanctum tokens every hour
         $schedule->command('sanctum:prune-expired')->hourly();
+
+        // Cập nhật trạng thái thanh toán hết hạn mỗi 5 phút
+        $schedule->command('payments:update-expired-status')->everyFiveMinutes();
     }
 
     /**

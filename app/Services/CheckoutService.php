@@ -60,7 +60,7 @@ class CheckoutService
         $redirectUrl = "http://localhost:5173/checkout/thankyou";
 
         // Sử dụng ngrok URL để MoMo có thể gọi callback
-        $ipnUrl = "https://7a8d287d97b0.ngrok-free.app/api/checkout/momo-callback";
+        $ipnUrl = "https://4eb52fafdf49.ngrok-free.app/api/checkout/momo-callback";
 
         // Log IPN URL để debug
         Log::info('MoMo IPN URL: ' . $ipnUrl);

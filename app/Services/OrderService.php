@@ -174,6 +174,20 @@ class OrderService
                     throw new \Exception('Không thể chuyển đơn hàng đã được giao sang trạng thái đã giao', 400);
                 }
             }
+            if($old_status == 'cancelled'){
+                if($status == 'pending'){
+                    throw new \Exception('Không thể chuyển đơn hàng đã được giao sang trạng thái chờ xử lý', 400);
+                }
+                if($status == 'paid'){
+                    throw new \Exception('Không thể chuyển đơn hàng đã được giao sang trạng thái đã xử lý', 400);
+                }
+                if($status == 'shipped'){
+                    throw new \Exception('Không thể chuyển đơn hàng đã được giao sang trạng thái đã giao', 400);
+                }
+                if($status == 'completed'){
+                    throw new \Exception('Không thể chuyển đơn hàng đã được giao sang trạng thái đã hoàn thành', 400);
+                }
+            }
             if($status == 'completed'){
                 foreach($order->items as $item){
                     $product = Product::where('prod_id', $item->prod_id)->first();

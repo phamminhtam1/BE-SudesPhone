@@ -47,7 +47,7 @@ class CustomerService
     }
 
     public function getCustomer(Customer $customer){
-        return $customer->load('order');
+        return $customer->load('order.payment');
     }
 
 }

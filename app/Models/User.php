@@ -67,4 +67,8 @@ class User extends Authenticatable
     public function approvedReceipts(){
         return $this -> hasMany(StockReceipt::class,'user_id', 'id');
     }
+
+    public function blogPosts(){
+        return $this -> hasMany(BlogPost::class, 'author_emp_id', 'id');
+    }
 }

@@ -17,7 +17,8 @@ use App\Http\Controllers\AddressCustomerController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CheckoutController;
-use App\Models\Order;
+use App\Http\Controllers\BlogPostController;
+use App\Http\Controllers\CategoryBlogPostController;
 
 //                              ADMIN
 Route::post('/register', [RegisteredUserController::class, 'store']);
@@ -166,6 +167,19 @@ Route::middleware(['auth:sanctum','check.token.expiration','refresh.token.expira
     //                           ADDRESS CUSTOMER
     Route::prefix('/address-customer')->group(function () {
         Route::get('/', [AddressCustomerController::class,'getAllAddressCustomer']);
+    });
+
+    //                           BLOG POST
+    Route::prefix('/blog-post')->group(function () {
+        Route::get('/', [BlogPostController::class, 'getAllBlogPost']);
+        Route::post('/create', [BlogPostController::class, 'addNewBlogPost']);
+    });
+
+    //                           CATEGORY BLOG POST
+    Route::prefix('/category-blog-post')->group(function () {
+        Route::get('/', [CategoryBlogPostController::class, 'getAllCategoryBlogPost']);
+        Route::post('/create', [CategoryBlogPostController::class, 'createCategoryBlogPost']);
+        Route::put('/update-status/{categoryBlogPost}', [CategoryBlogPostController::class, 'updateStatusCategoryBlogPost']);
     });
 
 });

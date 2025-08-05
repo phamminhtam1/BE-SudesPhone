@@ -13,6 +13,7 @@ class BlogPost extends Model
 
     protected $fillable = [
         'author_emp_id',
+        'category_blog_id',
         'title',
         'slug',
         'thumbnail_url',
@@ -30,6 +31,9 @@ class BlogPost extends Model
         return $this->belongsTo(User::class, 'author_emp_id', 'id');
     }
 
+    public function categoryBlog(){
+        return $this->belongsTo(CategoryBlogPost::class, 'category_blog_id', 'id');
+    }
     protected static function booted()
     {
         static::creating(function (BlogPost $post) {

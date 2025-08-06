@@ -30,6 +30,10 @@ class CategoryBlogPostService
         return CategoryBlogPost::orderBy('created_at', 'desc')->get();
     }
 
+    public function getAllCategoryBlogPostForFE(){
+        return CategoryBlogPost::where('status', '=', '1')->get();
+    }
+
     public function updateStatusCategoryBlogPost($categoryBlogPost, $status)
     {
         try{

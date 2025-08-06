@@ -44,6 +44,21 @@ class CategoryBlogPostController extends Controller
         }
     }
 
+    public function getAllCategoryBlogPostForFE(){
+        try{
+            $categoryBlogPosts = $this->categoryBlogPostService->getAllCategoryBlogPostForFE();
+            return response()->json([
+                'message' => 'success',
+                'categoryBlogPosts' => $categoryBlogPosts,
+            ], 200);
+        }catch(\Exception $e){
+            return response()->json([
+                'message' => 'error',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
     public function updateStatusCategoryBlogPost(CategoryBlogPost $categoryBlogPost, Request $request){
         try{
             $status = $request->status;

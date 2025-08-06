@@ -72,7 +72,13 @@ Route::middleware(['customer.auth', 'check.customer.token'])->group(function () 
 
 //Checkout
     Route::post('/customer/checkout/process', [CheckoutController::class, 'processCheckout']);
+
 });
+
+//Blogpost
+    Route::get('/blog-post-fe', [BlogPostController::class, 'getAllBlogPostForFE']);
+    Route::get('/blog-post-fe/{blogPost}', [BlogPostController::class, 'getBlogPostByIdForFE']);
+    Route::get('/category-blog-post-fe', [CategoryBlogPostController::class, 'getAllCategoryBlogPostForFE']);
 
 // Payment callbacks và thank you page (không cần auth)
 Route::post('/checkout/momo-callback', [CheckoutController::class, 'momoCallback']);
@@ -173,6 +179,10 @@ Route::middleware(['auth:sanctum','check.token.expiration','refresh.token.expira
     Route::prefix('/blog-post')->group(function () {
         Route::get('/', [BlogPostController::class, 'getAllBlogPost']);
         Route::post('/create', [BlogPostController::class, 'addNewBlogPost']);
+        Route::get('/{blogPost}', [BlogPostController::class, 'getBlogPostById']);
+        Route::put('/edit/{blogPost}', [BlogPostController::class, 'editBlogPost']);
+        Route::delete('/delete/{blogPost}', [BlogPostController::class, 'deleteBlogPost']);
+
     });
 
     //                           CATEGORY BLOG POST

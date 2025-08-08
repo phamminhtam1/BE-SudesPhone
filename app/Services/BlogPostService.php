@@ -65,29 +65,26 @@ class BlogPostService
         return $cloudfront . '/' . $path;
     }
 
-    private function deleteOldThumbnail($thumbnailUrl)
-    {
-        if (!$thumbnailUrl) {
-            return;
-        }
-
-        try {
-            $oldPath = ltrim(parse_url($thumbnailUrl, PHP_URL_PATH), '/');
-            if (Storage::disk('s3')->exists($oldPath)) {
-                Storage::disk('s3')->delete($oldPath);
-                Log::info("Đã xóa ảnh cũ: " . $oldPath);
-            }
-        } catch (\Exception $e) {
-            Log::warning("Không thể xóa ảnh cũ: " . $e->getMessage());
-        }
-    }
-
     public function getBlogPostById(BlogPost $blogPost){
         return $blogPost->load('user.role', 'categoryBlog');
     }
 
     public function getBlogPostByIdForFE(BlogPost $blogPost){
         return $blogPost->load('categoryBlog');
+    }
+    public function getHotBlogPost(){
+        return BlogPost::where('published', '=','1')
+            ->orderByDesc('view_count')
+            ->take(5)
+            ->get();
+    }
+
+    public function getBlogPostByCategoryId($categoryId){
+        return BlogPost::where('category_blog_id', '=', $categoryId)
+            ->where('published', '=', '1')
+            ->orderBy('created_at', 'desc')
+            ->with('categoryBlog:id,name')
+            ->get();
     }
 
     public function updateBlogPost(BlogPost $blogPost, array $data, $file) {
@@ -144,6 +141,23 @@ class BlogPostService
         }catch (\Exception $e) {
             DB::rollBack();
             throw $e;
+        }
+    }
+
+    private function deleteOldThumbnail($thumbnailUrl)
+    {
+        if (!$thumbnailUrl) {
+            return;
+        }
+
+        try {
+            $oldPath = ltrim(parse_url($thumbnailUrl, PHP_URL_PATH), '/');
+            if (Storage::disk('s3')->exists($oldPath)) {
+                Storage::disk('s3')->delete($oldPath);
+                Log::info("Đã xóa ảnh cũ: " . $oldPath);
+            }
+        } catch (\Exception $e) {
+            Log::warning("Không thể xóa ảnh cũ: " . $e->getMessage());
         }
     }
 }

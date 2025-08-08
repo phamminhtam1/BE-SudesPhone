@@ -11,7 +11,7 @@ class CreateBlogPostRequest extends FormRequest
             'category_blog_id' => ['required', 'exists:categories_blog,id'],
             'title' => ['required', 'string', 'max:255'],
             'thumbnail' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
-            'summary' => ['nullable', 'string', 'max:500'],
+            'summary' => ['nullable', 'string', 'max:1000'],
             'content' => ['required', 'string'],
             'meta_title' => ['nullable', 'string', 'max:255'],
             'meta_description' => ['nullable', 'string', 'max:255'],
@@ -42,7 +42,7 @@ class CreateBlogPostRequest extends FormRequest
             'thumbnail.mimes' => 'Ảnh chỉ được chấp nhận định dạng: jpg, jpeg, png, hoặc webp.',
             'thumbnail.max' => 'Kích thước ảnh không được vượt quá 2MB.',
 
-            'summary.max' => 'Tóm tắt không được vượt quá 500 ký tự.',
+            'summary.max' => 'Tóm tắt không được vượt quá 1000 ký tự.',
 
             'content.required' => 'Nội dung bài viết là bắt buộc.',
 

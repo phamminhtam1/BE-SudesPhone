@@ -66,6 +66,30 @@ class BlogPostController extends Controller
         }
     }
 
+    public function getHotBlogPost(){
+        try{
+            $blogPosts = $this->blogPostService->getHotBlogPost();
+            return response()->json([
+                'message' => 'success',
+                'blogPosts' => $blogPosts,
+            ], 200);
+        }catch(\Exception $e){
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
+
+    public function getBlogPostByCategoryId($categoryId){
+        try{
+            $blogPosts = $this->blogPostService->getBlogPostByCategoryId($categoryId);
+            return response()->json([
+                'message' => 'success',
+                'blogPosts' => $blogPosts,
+            ], 200);
+        }catch(\Exception $e){
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
+
     public function getBlogPostById(BlogPost $blogPost){
         $blogPost = $this->blogPostService->getBlogPostById($blogPost);
         return response()->json([
@@ -80,6 +104,7 @@ class BlogPostController extends Controller
                 'message' => 'Bài viết không tồn tại hoặc chưa được xuất bản.'
             ], 404);
         }
+        $blogPost->increment('view_count');
         $blogPost = $this->blogPostService->getBlogPostByIdForFE($blogPost);
         return response()->json([
             'message'=> 'success',

@@ -77,7 +77,9 @@ Route::middleware(['customer.auth', 'check.customer.token'])->group(function () 
 
 //Blogpost
     Route::get('/blog-post-fe', [BlogPostController::class, 'getAllBlogPostForFE']);
+    Route::get('/blog-post-fe/hot', [BlogPostController::class, 'getHotBlogPost']);
     Route::get('/blog-post-fe/{blogPost}', [BlogPostController::class, 'getBlogPostByIdForFE']);
+    Route::get('/blog-post-fe/category/{categoryId}', [BlogPostController::class, 'getBlogPostByCategoryId']);
     Route::get('/category-blog-post-fe', [CategoryBlogPostController::class, 'getAllCategoryBlogPostForFE']);
 
 // Payment callbacks và thank you page (không cần auth)

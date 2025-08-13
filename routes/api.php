@@ -19,6 +19,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\BlogPostController;
 use App\Http\Controllers\CategoryBlogPostController;
+use App\Http\Controllers\IntroductionController;
+use App\Http\Controllers\PolicyController;
 
 //                              ADMIN
 Route::post('/register', [RegisteredUserController::class, 'store']);
@@ -87,6 +89,11 @@ Route::post('/checkout/momo-callback', [CheckoutController::class, 'momoCallback
 Route::get('/checkout/thank-you', [CheckoutController::class, 'thankYou']);
 Route::get('/customer/checkout/thank-you', [CheckoutController::class, 'thankYou']); // Thêm route cũ để tương thích
 
+// Introduction cho FE (public)
+Route::get('/introduction', [IntroductionController::class, 'get']);
+
+// Policy cho FE (public)
+Route::get('/policy', [PolicyController::class, 'get']);
 
 
 Route::middleware(['auth:sanctum','check.token.expiration','refresh.token.expiration'])->group(function () {
@@ -192,6 +199,16 @@ Route::middleware(['auth:sanctum','check.token.expiration','refresh.token.expira
         Route::get('/', [CategoryBlogPostController::class, 'getAllCategoryBlogPost']);
         Route::post('/create', [CategoryBlogPostController::class, 'createCategoryBlogPost']);
         Route::put('/update-status/{categoryBlogPost}', [CategoryBlogPostController::class, 'updateStatusCategoryBlogPost']);
+    });
+
+    //                           INTRODUCTION
+    Route::prefix('/introduction')->group(function () {
+        Route::put('/edit', [IntroductionController::class, 'update']);
+    });
+
+    //                           POLICY
+    Route::prefix('/policy')->group(function () {
+        Route::put('/edit', [PolicyController::class, 'update']);
     });
 
 });

@@ -21,6 +21,7 @@ use App\Http\Controllers\BlogPostController;
 use App\Http\Controllers\CategoryBlogPostController;
 use App\Http\Controllers\IntroductionController;
 use App\Http\Controllers\PolicyController;
+use App\Http\Controllers\ExportController;
 
 //                              ADMIN
 Route::post('/register', [RegisteredUserController::class, 'store']);
@@ -144,6 +145,12 @@ Route::middleware(['auth:sanctum','check.token.expiration','refresh.token.expira
         Route::put('/edit/{product}', [ProductController::class,'editProduct']);
         Route::put('/update-status/{product}', [ProductController::class,'updateProductStatus']);
         Route::delete('/delete/{product}', [ProductController::class,'deleteProduct']);
+    });
+
+    //                           EXPORT
+    Route::prefix('/export')->group(function () {
+        Route::get('/products/csv', [ExportController::class,'exportProductsToCsv']);
+        Route::get('/download-csv/{filename}', [ExportController::class,'downloadCsv']);
     });
 
     //                           SUPPLIER

@@ -22,6 +22,7 @@ use App\Http\Controllers\CategoryBlogPostController;
 use App\Http\Controllers\IntroductionController;
 use App\Http\Controllers\PolicyController;
 use App\Http\Controllers\ExportController;
+use App\Http\Controllers\ImageClassifierController;
 
 //                              ADMIN
 Route::post('/register', [RegisteredUserController::class, 'store']);
@@ -80,6 +81,13 @@ Route::middleware(['customer.auth', 'check.customer.token'])->group(function () 
 
 //Blogpost
     Route::get('/blog-post-fe', [BlogPostController::class, 'getAllBlogPostForFE']);
+
+// Image classifier proxy to FastAPI
+Route::prefix('ai')->group(function () {
+    Route::get('/classifier/health', [ImageClassifierController::class, 'health']);
+    Route::get('/classifier/labels', [ImageClassifierController::class, 'labels']);
+    Route::post('/classifier/predict', [ImageClassifierController::class, 'predict']);
+});
     Route::get('/blog-post-fe/hot', [BlogPostController::class, 'getHotBlogPost']);
     Route::get('/blog-post-fe/{blogPost}', [BlogPostController::class, 'getBlogPostByIdForFE']);
     Route::get('/blog-post-fe/category/{categoryId}', [BlogPostController::class, 'getBlogPostByCategoryId']);

@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    // Image classification FastAPI service
+    'image_classifier' => [
+        'base_url' => env('IMAGE_CLASSIFIER_BASE_URL', 'http://127.0.0.1:9000'),
+        // Timeout in seconds
+        'timeout' => env('IMAGE_CLASSIFIER_TIMEOUT', 30),
+    ],
+
 ];

@@ -35,7 +35,7 @@ class ImageClassifierController extends Controller
             /** @var \Illuminate\Http\UploadedFile|null $file */
             $file = $request->file('file');
             $imageUrl = $request->input('image_url');
-            $topK = (int) ($request->input('top_k', 5));
+            $topK = (int) ($request->input('top_k', 3));
 
             $result = $this->classifier->predict($file, $imageUrl, $topK);
             return response()->json($result, 200);
